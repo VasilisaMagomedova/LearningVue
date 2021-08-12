@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Intro to Vue</title>
+	<link href="style.css" rel="stylesheet">
+	<script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+</head>
+
+<body>
+	<div class="wrapper">
+		<table id="app">
+			<tr>
+				<th>Theme</th>
+				<th>Example</th>
+			</tr>
+			<tr>
+				<td>Vue Instance</td>
+				<td>{{ description }}</td>
+			</tr>
+			<tr>
+				<td>Attribute Binding</td>
+				<td v-bind:title="hover">Move computer mouse over this line</td>
+			</tr>
+			<tr>
+				<td>Conditional Rendering</td>
+				<td>
+					<span v-if=" count >= 5">Many</span>
+					<span v-else-if=" count < 5 && count > 0">Less</span>
+					<span v-else>Zero</span>
+				</td>
+			</tr>
+			<tr>
+				<td>Show</td>
+				<td><span v-show="message">You can see this message</span></td>
+			</tr>
+			<tr>
+				<td>List Rendering</td>
+				<td>
+					<ul>
+						<li v-for="todo in todos">{{ todo }}</li>
+					</ul>
+				</td>
+			</tr>
+			<tr>
+				<td>Event Handling #1</td>
+				<td>
+					<button class="btn" v-on:click="addToCart">Add to cart</button>
+					<button class="btn" v-on:click="removeFromCart">Remove</button>
+					<span>Cart ({{ cart }})</span>
+				</td>
+			</tr>
+			<tr>
+				<td>Event Handling #2</td>
+				<td>
+					<p>{{ inputForm }}</p>
+					<input v-model="inputForm">
+				</td>
+			</tr>
+			<tr>
+				<td>Components</td>
+				<td>
+					<ul>
+						<recipe-item 
+							v-for="item in recipeList"
+							v-bind:recipe="item"
+							v-bind:key="item.id"
+						></recipe-item>
+					</ul>
+				</td>
+			</tr>
+		</table>
+	</div>
+
+	<script>
+		Vue.component('recipe-item', {
+			props: ['recipe'], // входной параметр
+			template: '<li>{{ recipe.text }}</li>'
+		})
+		
+		var app = new Vue({
+			el: '#app',
+			data: {
+				description: 'Vue project #1',
+				hover: 'Вы загрузили эту страницу: ' + new Date().toLocaleString(),
+				count: 4,
+				message: true,
+				todos: ["learn Vue.js", "make projects"],
+				cart: 0,
+				inputForm: 'This is introduction to Vue',
+				recipeList: [
+					{ id: 0, text: 'milk' },
+					{ id: 1, text: 'cheese' },
+					{ id: 2, text: 'pasta' },
+					{ id: 3, text: 'eggs' },
+    			]
+			},
+			methods: {
+				addToCart: function() {
+					this.cart += 1
+				},
+				removeFromCart: function() {
+					this.cart = 0
+				}
+			}
+		})
+	</script>
+</body>
+</html>
